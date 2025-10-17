@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Mercado - Segmento de Software</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/recharts@2.5.0/dist/Recharts.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = Recharts;
+
+        function MarketResearchDashboard() {
+          const timelineData = [
+            { date: '10/2023', items: 5000000, value: 100000000 },
+            { date: '11/2023', items: 8000000, value: 200000000 },
+            { date: '12/2023', items: 12000000, value: 400000000 },
+            { date: '1/2024', items: 10000000, value: 300000000 },
+            { date: '2/2024', items: 5000000, value: 100000000 },
+            { date: '3/2024', items: 8000000, value: 200000000 },
+            { date: '4/2024', items: 15000000, value: 800000000 },
+            { date: '5/2024', items: 50000000, value: 3000000000 },
+            { date: '6/2024', items: 8000000, value: 200000000 },
+            { date: '7/2024', items: 180000000, value: 6000000000 },
+            { date: '8/2024', items: 280000000, value: 13000000000 },
+            { date: '9/2024', items: 100000000, value: 3500000000 },
+            { date: '10/2024', items: 45000000, value: 2000000000 },
+            { date: '11/2024', items: 35000000, value: 1500000000 },
+            { date: '12/2024', items: 25000000, value: 800000000 },
+            { date: '1/2025', items: 20000000, value: 600000000 },
+            { date: '2/2025', items: 18000000, value: 500000000 },
+            { date: '3/2025', items: 15000000, value: 400000000 },
+            { date: '4/2025', items: 12000000, value: 300000000 },
+            { date: '5/2025', items: 35000000, value: 1200000000 },
+            { date: '6/2025', items: 28000000, value: 900000000 },
+            { date: '7/2025', items: 22000000, value: 700000000 },
+            { date: '8/2025', items: 18000000, value: 500000000 },
+            { date: '9/2025', items: 15000000, value: 400000000 },
+            { date: '10/2025', items: 12000000, value: 300000000 }
+          ];
+
+          const companyData = [
+            { name: 'CENTRO DE...', value: 12831331029.21, fullName: 'CENTRO DE INFORMATICA E AUTOMACAO DO ESTADO DE SC S/A' },
+            { name: 'EMPRESA DE...', value: 2700000000, fullName: 'EMPRESA DE TECNOLOGIA E INFORMAÇÕES DA PREVIDENCIA' },
+            { name: 'SMART CITI...', value: 2000000000, fullName: 'SMART CITIZEN DESENVOLVIMENTO E LICENCIAMENTO DE SOFTWARE LTDA' },
+            { name: 'BRASOFTWAR...', value: 1700000000, fullName: 'BRASOFTWARE INFORMATICA LTDA' },
+            { name: 'ATECH - NE...', value: 500000000, fullName: 'ATECH - NEGOCIOS EM TECNOLOGIAS S.A.' },
+            { name: 'EXTREME DI...', value: 400000000, fullName: 'EXTREME DIGITAL EXPERIENCE LTDA' },
+            { name: 'TECHBIZ FO...', value: 350000000, fullName: 'TECHBIZ FORENSE DIGITAL LTDA' },
+            { name: 'COMPANHIA...', value: 300000000, fullName: 'COMPANHIA DE PROCESSAMENTO DE DADOS DO ESTADO DE SÃO PAULO - PRODESP' },
+            { name: 'SERVICO FE...', value: 280000000, fullName: 'SERVICO FEDERAL DE PROCESSAMENTO DE DADOS (SERPRO)' },
+            { name: 'RESOURCE T...', value: 250000000, fullName: 'RESOURCE TECNOLOGIA E INFORMATICA LTDA' }
+          ];
+
+          const pieData = [
+            { name: 'CENTRO DE INFORMATICA E AUTOMACAO DO ESTADO DE SC S/A', value: 43.8, color: '#FFC0CB' },
+            { name: 'EMPRESA DE TECNOLOGIA E INFORMAÇÕES DA PREVIDENCIA', value: 13.5, color: '#1E40AF' },
+            { name: 'SMART CITIZEN DESENVOLVIMENTO E LICENCIAMENTO DE SOFTWARE LTDA', value: 10.2, color: '#22C55E' },
+            { name: 'BRASOFTWARE INFORMATICA LTDA', value: 8.5, color: '#7C9CB5' },
+            { name: 'ATECH - NEGOCIOS EM TECNOLOGIAS S.A.', value: 6.8, color: '#DC2626' },
+            { name: 'EXTREME DIGITAL EXPERIENCE LTDA', value: 5.2, color: '#EAB308' },
+            { name: 'TECHBIZ FORENSE DIGITAL LTDA', value: 4.1, color: '#A78BFA' },
+            { name: 'COMPANHIA DE PROCESSAMENTO DE DADOS DO ESTADO DE SÃO PAULO - PRODESP', value: 3.5, color: '#3B82F6' },
+            { name: 'SERVICO FEDERAL DE PROCESSAMENTO DE DADOS (SERPRO)', value: 2.8, color: '#000000' },
+            { name: 'RESOURCE TECNOLOGIA E INFORMATICA LTDA', value: 1.6, color: '#F97316' }
+          ];
+
+          const formatCurrency = (value) => {
+            if (value >= 1000000000) {
+              return `R$ ${(value / 1000000000).toFixed(1)} B`;
+            }
+            return `R$ ${(value / 1000000).toFixed(0)} M`;
+          };
+
+          const formatNumber = (num) => {
+            return new Intl.NumberFormat('pt-BR').format(num);
+          };
+
+          return (
+            <div className="min-h-screen bg-gray-50 p-8">
+              <div className="max-w-7xl mx-auto">
+                <div className="mb-8">
+                  <h1 className="text-3xl font-normal text-gray-800 text-center mb-8 relative">
+                    <span className="inline-block relative">
+                      <span className="absolute left-0 right-0 top-1/2 h-0.5 bg-blue-400 -translate-y-1/2 -mx-64"></span>
+                      <span className="relative bg-gray-50 px-6">Pesquisa de Mercado - Segmento de Software</span>
+                    </span>
+                  </h1>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                      <div className="bg-blue-100 px-6 py-4">
+                        <p className="text-2xl font-light text-gray-700">R$ 29.297.681.130,26</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="text-base font-semibold text-gray-800">Valor total</p>
+                        <p className="text-sm text-gray-600">Quantidade total homologada</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                      <div className="bg-blue-100 px-6 py-4">
+                        <p className="text-2xl font-light text-gray-700">504118442.2267</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="text-base font-semibold text-gray-800">Itens vendidos</p>
+                        <p className="text-sm text-gray-600">Quantidade total</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                      <div className="bg-blue-100 px-6 py-4">
+                        <p className="text-2xl font-light text-gray-700">4925</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="text-base font-semibold text-gray-800">Empresas vencedoras</p>
+                        <p className="text-sm text-gray-600">Quantidade total</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                      <div className="bg-blue-100 px-6 py-4">
+                        <p className="text-2xl font-light text-gray-700">R$ 12.178.661.520,00</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="text-base font-semibold text-gray-800">Maior valor</p>
+                        <p className="text-sm text-gray-600">Quantidade total única homologada</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                      <div className="bg-blue-100 px-6 py-4">
+                        <p className="text-2xl font-light text-gray-700">R$ 13.177.734.290,87</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="text-base font-semibold text-gray-800">SC</p>
+                        <p className="text-sm text-gray-600">Principal estado</p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+                      <div className="bg-blue-100 px-6 py-4">
+                        <p className="text-2xl font-light text-gray-700">R$ 12.831.331.029,21</p>
+                      </div>
+                      <div className="px-6 py-4">
+                        <p className="text-base font-semibold text-gray-800">CENTRO DE INFORMATICA E AUTOMACAO DO ESTADO DE SC S/A</p>
+                        <p className="text-sm text-gray-600">Principal empresa vencedora</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+                  <h2 className="text-xl font-normal text-gray-700 mb-6">Evolução temporal</h2>
+                  <ResponsiveContainer width="100%" height={400}>
+                    <LineChart data={timelineData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="date" tick={{ fontSize: 11 }} angle={-45} textAnchor="end" height={80} />
+                      <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={formatCurrency} />
+                      <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
+                      <Tooltip formatter={(value, name) => {
+                        if (name === 'value') return [formatCurrency(value), 'Valor total itens vendidos'];
+                        return [formatNumber(value), 'Qtd. de itens vendidos'];
+                      }} />
+                      <Legend 
+                        wrapperStyle={{ fontSize: '13px' }}
+                        formatter={(value) => value === 'items' ? 'Qtd. de itens vendidos' : 'Valor total itens vendidos'}
+                      />
+                      <Line yAxisId="right" type="monotone" dataKey="items" stroke="#FFC0CB" strokeWidth={2} name="items" dot={false} />
+                      <Line yAxisId="left" type="monotone" dataKey="value" stroke="#1E40AF" strokeWidth={2} name="value" dot={false} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <h2 className="text-xl font-normal text-gray-700 mb-6">Total Homologado (R$) por Empresa</h2>
+                    <ResponsiveContainer width="100%" height={400}>
+                      <BarChart data={companyData} layout="vertical">
+                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                        <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={formatCurrency} />
+                        <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 10 }} />
+                        <Tooltip 
+                          formatter={(value) => formatCurrency(value)}
+                          labelFormatter={(label, payload) => {
+                            if (payload && payload[0]) {
+                              return payload[0].payload.fullName;
+                            }
+                            return label;
+                          }}
+                        />
+                        <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                          {companyData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={pieData[index]?.color || '#94a3b8'} />
+                          ))}
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  <div className="bg-white rounded-lg shadow-sm p-6">
+                    <h2 className="text-xl font-normal text-gray-700 mb-6">% do Total Homologado por Empresa</h2>
+                    <ResponsiveContainer width="100%" height={400}>
+                      <PieChart>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={80}
+                          outerRadius={140}
+                          paddingAngle={1}
+                          dataKey="value"
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip formatter={(value) => `${value}%`} />
+                        <Legend 
+                          layout="vertical" 
+                          align="right" 
+                          verticalAlign="middle"
+                          wrapperStyle={{ fontSize: '11px', paddingLeft: '20px' }}
+                          iconType="square"
+                          iconSize={12}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+
+                <div className="mt-8 text-center text-sm text-gray-600 pb-4">
+                  <p>Pesquisa pública. Informações retiradas do Portal Nacional de Contratações Públicas.</p>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<MarketResearchDashboard />);
+    </script>
+</body>
+</html>
